@@ -36,19 +36,37 @@ nav.breadcrumb {
   color: var(--color);
   background: var(--background);
   box-shadow: var(--shadow) 0.1em 0.1em 0.2em;
-  margin: 1em;
-  margin-bottom: 2em;
+}
+nav.breadcrumb > a, nav.breadcrumb > span {
+  display: inline-block;
+  padding: 0.5em;
+  margin-right: 0.1em;
 }
 nav.breadcrumb > a {
-  display: inline-block;
   background: linear-gradient(var(--background), var(--highlight-background));
-  padding: 0.5em;
-  margin-right: 0.5em;
 }
 nav.breadcrumb > a:hover {
   background: var(--highlight-background);
 }
 
+.fileview {
+  padding-bottom: 2em;
+  position: relative;
+}
+.fileview > .item {
+  border: 1px solid transparent;
+  border-radius: 0.25em;
+}
+.fileview > .item:hover {
+  background: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.5);
+  color: var(--highlight-color);
+}
+.fileview > .item > span {
+  display: block;
+  overflow-wrap: break-word;
+  overflow: hidden;
+}
 .fileview.grid {
   display: flex;
   flex-direction: row;
@@ -60,27 +78,57 @@ nav.breadcrumb > a:hover {
   text-align: center;
   justify-content: center;
   align-items: center;
-  width: calc(var(--icon-size)*2);
-  border: 1px solid transparent;
-  border-radius: 0.25em;
-}
-.fileview.grid > .item:hover {
-  background: rgba(255,255,255,0.25);
-  border: 1px solid rgba(255,255,255,0.5);
-  color: var(--highlight-color);
+  width: calc(var(--size)*2);
 }
 .fileview.grid > .item > img {
-  width: var(--icon-size);
-  height: var(--icon-size);
+  width: var(--size);
+  height: var(--size);
 }
 .fileview.grid > .item > span {
   display: none;
 }
 .fileview.grid > .item > span.name {
   display: block;
-  max-height: var(--icon-size);
+  max-height: var(--size);
   max-width: 100%;
+}
+.fileview.list {
+  display: flex;
+  flex-direction: column;
+}
+.fileview.list > .item {
+  display: flex;
+  flex-direction: row;
+  padding: 0.25em;
+  margin-bottom: 0.25em;
+}
+.fileview.list > .item > img {
+  width: calc(var(--size)/4);
+  height: calc(var(--size)/4);
+}
+.fileview.list > .item > span {
   text-overflow: ellipsis;
-  overflow-wrap: break-word;
-  overflow: hidden;
+  white-space: nowrap;
+  align-self: center;
+}
+.fileview.list > .item > span.name {
+  flex-basis: 50%;
+}
+.fileview.list > .item > span.moddate {
+  flex-basis: 30%;
+}
+.fileview.list > .item > span.size {
+  flex-basis: 10%;
+}
+
+.fileview > .fv-footer {
+  position: absolute;
+  left: 1em;
+  right: 1em;
+  bottom: 0;
+}
+.fileview > .fv-footer > .view-selector {
+  position: absolute;
+  right: 1em;
+  bottom: 0;
 }

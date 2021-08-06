@@ -4,6 +4,7 @@
   --background: #2c3e50;
   --highlight-background: #34495e;
   --shadow: #000;
+  --feature: #3498db;
 }
 html{
   font-family: 'Roboto', sans-serif;
@@ -15,6 +16,7 @@ html{
 body{
   padding: 1em;
 }
+
 a:link, a:visited {
   color: var(--color);
   text-decoration: none;
@@ -22,8 +24,33 @@ a:link, a:visited {
 a:link:hover {
   color: var(--highlight-color);
 }
-body>div {
-  padding: 1em;
+.btn {
+  display: inline-block;
+  background: var(--feature);
+  padding: 0.5em;
+  box-shadow: rgba(0,0,0,0) 0.1em 0.1em 0.2em;
+  transition: 0.25s box-shadow;
+}
+.btn:hover {
+  box-shadow: rgba(0,0,0,0.25) 0.1em 0.1em 0.2em;
+}
+.btn-large {
+  font-size: 1.5em;
+}
+.btn-primary {
+  background: var(--feature);
+}
+
+.flex-stack {
+  display: flex;
+  flex-direction: column;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.fm {
   background: var(--highlight-background);
   box-shadow: var(--shadow) 0.1em 0.1em 0.2em;
 }
@@ -35,22 +62,22 @@ nav.breadcrumb {
   --highlight-background: #fff;
   color: var(--color);
   background: var(--background);
-  box-shadow: var(--shadow) 0.1em 0.1em 0.2em;
+  line-height: 1.5;
 }
 nav.breadcrumb > a, nav.breadcrumb > span {
   display: inline-block;
   padding: 0.5em;
   margin-right: 0.1em;
 }
-nav.breadcrumb > a {
-  background: linear-gradient(var(--background), var(--highlight-background));
+nav.breadcrumb > span {
+  padding: 0.1em;
 }
 nav.breadcrumb > a:hover {
   background: var(--highlight-background);
 }
 
 .fileview {
-  padding-bottom: 2em;
+  padding: 1em;
   position: relative;
 }
 .fileview > .item {
@@ -67,6 +94,7 @@ nav.breadcrumb > a:hover {
   overflow-wrap: break-word;
   overflow: hidden;
 }
+
 .fileview.grid {
   display: flex;
   flex-direction: row;
@@ -80,6 +108,25 @@ nav.breadcrumb > a:hover {
   align-items: center;
   width: calc(var(--size)*2);
 }
+.fileview.grid > .item.drive {
+  position: relative;
+  width: calc(var(--size)*2.5);
+  padding-left: var(--size);
+  text-align: left;
+  align-items: start;
+  min-height: var(--size);
+}
+.fileview.grid > .item.drive > img {
+  position: absolute;
+  left: 0;
+}
+.fileview.grid > .item.drive > span.usage, .fileview.grid > .item.drive > span.usage-bar {
+  display: block;
+}
+.fileview.grid progress {
+  width: calc(var(--size) * 2);
+  height: 24px;
+}
 .fileview.grid > .item > img {
   width: var(--size);
   height: var(--size);
@@ -92,6 +139,7 @@ nav.breadcrumb > a:hover {
   max-height: var(--size);
   max-width: 100%;
 }
+
 .fileview.list {
   display: flex;
   flex-direction: column;
@@ -120,15 +168,40 @@ nav.breadcrumb > a:hover {
 .fileview.list > .item > span.size {
   flex-basis: 10%;
 }
-
-.fileview > .fv-footer {
-  position: absolute;
-  left: 1em;
-  right: 1em;
-  bottom: 0;
+.fileview.list > .item.drive > span.moddate {
+  display: none;
 }
-.fileview > .fv-footer > .view-selector {
-  position: absolute;
-  right: 1em;
-  bottom: 0;
+.fileview.list > .item.drive > span.usage {
+  flex-basis: 20%;
+}
+.fileview.list > .item.drive > span.usage-bar {
+  flex-basis: 30%;
+}
+.fileview.list progress {
+  width: 20vw;
+  height: 1em;
+}
+
+.fileview.preview {
+
+}
+.fileview.preview > .file-properties {
+  
+}
+.fileview.preview > .file-properties > .flex-stack > span {
+  margin: 1em 0;
+}
+
+.fv-footer {
+  --color: #000;
+  --highlight-color: #336;
+  --background: #bdc3c7;
+  --highlight-background: #fff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: var(--color);
+  background: var(--background);
+  padding: 0.5em;
+  line-height: 1.5;
 }

@@ -119,12 +119,13 @@ if(!$filemode){
 					foreach($dirs as $dirf){
 						$extra = '';
 						if($cwd == $root){
-							$type = 'drive';
 							if($dirf == $cwd.'user'){
+								$type = 'drive&mod=personal';
 								$quota = get_quota($cwd.'user/'.$username.'/');
 								$free = $quota['free'];
 								$total = $quota['total'];
 							}else{
+								$type = 'drive';
 								$free = disk_free_space($dirf);
 								$total = disk_total_space($dirf);
 							}
@@ -134,15 +135,15 @@ if(!$filemode){
 							$extra = "<span class=\"usage\">$freeh free</span>\n".
 											"<span class=\"usage-bar\"><progress value=$percentage max=100 title=\"$totalh total\"></span>";
 						}
-						else $type = glob($dirf.'/*')?'folderfull':'folder';
+						else $type = glob($dirf.'/*')?'folder':'folder&mod=empty';
 						$modtime = date("d/m/Y H:i:s", filemtime($dirf));
 						$dir = basename($dirf);
 						$url = canonicalurl($dirf);
 						if(strpos($dir, '.') !== 0 && !in_array($dir, $ignores)){
 							$printed++;
 							print("
-							<a class=\"item ".($type=='drive'?'drive':'dir')."\" href=\"$url/\" title=\"$dir\">
-								<img src=\"/icongen.php?type=$type\" alt=\"folder icon\"/>
+							<a class=\"item ".(strpos($type, 'drive')===0?'drive':'dir')."\" href=\"$url/\" title=\"$dir\">
+								<img src=\"/icongen.php?nodetype=$type\" alt=\"folder icon\"/>
 								<span class=\"name\">$dir</span>
 								<span class=\"moddate\">$modtime</span>
 								$extra
@@ -159,7 +160,7 @@ if(!$filemode){
 							$printed++;
 							print("
 							<a class=\"item file\" href=\"$url\" title=\"$file\">
-								<img src=\"/icongen.php?type=file&ext=$ext\" alt=\"$ext icon\"/>
+								<img src=\"/icongen.php?nodetype=file&ext=$ext\" alt=\"$ext icon\"/>
 								<span class=\"name\">$file</span>
 								<span class=\"moddate\">$modtime</span>
 								<span class=\"size\">$size</span>
@@ -174,7 +175,7 @@ if(!$filemode){
 					$dlurl = str_replace(['%2F','+'], ['/','%20'], urlencode(substr($cwd, strlen(__DIR__))));
 					print("
 					<div class=\"file-properties flex-row\">
-						<img src=\"/icongen.php?type=file&ext=$ext\" alt=\"$ext icon\"/>
+						<img src=\"/icongen.php?nodetype=file&ext=$ext\" alt=\"$ext icon\"/>
 						<div class=\"flex-stack\">
 							<span class=\"name\"><i>File name:</i> $file</span>
 							<span class=\"moddate\"><i>Last modified:</i> $modtime</span>
@@ -199,8 +200,8 @@ if(!$filemode){
 							<source src=\"$dlurl\" type=\"$mimetype\">
 							Unable to play this audio in your browser
 						</audio>");
-					}elseif($previewtype == 'plaintext'){
-						if($size <= 2000){
+					}elseif(in_array($ext, $editable)){
+						if(filesize($cwd) <= 2000){
 							print("
 							<form method=\"POST\">
 								<textarea name=\"filecontent\" rows=\"10\"  style=\"width:100%;\">".htmlspecialchars(file_get_contents($cwd))."</textarea>

@@ -199,6 +199,7 @@ nav.breadcrumb > a:hover {
   --highlight-background: #fff;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
   color: var(--color);
   background: var(--background);

@@ -93,6 +93,10 @@ nav.breadcrumb > a:hover {
   display: block;
   overflow-wrap: break-word;
   overflow: hidden;
+  font-size: 0.9rem;
+}
+.fileview > .item > span.name {
+  font-size: 1rem;
 }
 
 .fileview.grid {

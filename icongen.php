@@ -18,7 +18,7 @@ $sharing = array_key_exists('sharing', $_GET)?strtolower($_GET['sharing']):null;
 // is true if provided
 $shortcut = isset($_GET['shortcut']);
 
-include('types.php');
+include('includes/types.php');
 
 $color = '';
 if($nodetype=='file') {
@@ -337,6 +337,11 @@ EOT;
     </g>
   </g>
   EOT;
+  $svgerror = <<<EOT
+  <g id="error">
+    <path d="m55.446 12.287-43.16 43.16m0-43.16 43.16 43.16" fill="none" stroke="#f00" stroke-linecap="round" stroke-width="7.3904"/>
+  </g>
+  EOT;
 }
 
 print($svgheader);
@@ -352,7 +357,7 @@ if($nodetype == 'drive'){
   if(array_key_exists($filetype, $icon)) print($icon[$filetype]);
   print($exttext);
 }else{
-  // TODO: create an error state
+  print($svgerror);
 }
 
 if($sharing){

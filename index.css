@@ -210,3 +210,6 @@ nav.breadcrumb > a:hover {
   padding: 0.5em;
   line-height: 1.5;
 }
+.fv-footer form {
+  margin: 0;
+}

@@ -31,10 +31,10 @@ function get_quota($dir) {
 
 function canonicalurl($path) {
 	global $username;
-	$path = str_replace($_SERVER['DOCUMENT_ROOT'].'/raw/user/'.$username, $_SERVER['DOCUMENT_ROOT'].'/raw/user', $path);
-	$path = substr($path, strlen($_SERVER['DOCUMENT_ROOT'].'/raw/'));
+	$path = basename($path);//str_replace($_SERVER['DOCUMENT_ROOT'].'/raw/user/'.$username, $_SERVER['DOCUMENT_ROOT'].'/raw/user', $path);
+	//$path = substr($path, strlen($_SERVER['DOCUMENT_ROOT'].'/raw/'));
 	$path = urlencode($path);
 	$path = str_replace('%2F', '/', $path);
-	return '/'.$path;
+	return $path;//'/'.$path;
 }
 ?>

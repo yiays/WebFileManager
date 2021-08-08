@@ -64,8 +64,4 @@ foreach($files as $filef){
 		</a>");
 	}
 }
-
-if($printed == 0){
-	print("<span class=\"item disabled\">¯\_(ツ)_/¯</span>");
-}
 ?>

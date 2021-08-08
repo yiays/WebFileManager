@@ -1,15 +1,19 @@
 <?php
 require_once 'fileview.php';
-
-echo "<div class=\"fileview $viewmode\" style=\"--size:$viewsize\">";
+include __DIR__.'/../includes/types.php';
 
 $type = 'file';
 if(is_link($cwd)) $type .= '&shortcut';
 $ext = pathinfo($cwd, PATHINFO_EXTENSION);
+$previewtype = find_type($ext);
+$viewmode = 'preview filetype-'.$previewtype;
 $modtime = date("d/m/Y H:i:s", filemtime($cwd));
 $size = human_filesize(filesize($cwd));
 $file = basename($cwd);
 $dlurl = str_replace(['%2F','+'], ['/','%20'], urlencode(substr($cwd, strlen($_SERVER['DOCUMENT_ROOT']))));
+
+print("<div class=\"fileview $viewmode\" style=\"--size:$viewsize\">");
+
 print("
 <div class=\"file-properties flex-row\">
   <img src=\"/icongen.php?nodetype=$type&ext=$ext\" alt=\"$ext icon\"/>

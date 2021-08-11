@@ -14,7 +14,7 @@ $types = [
   'disc' => ['iso', 'img', 'cso', 'dmg', 'ciso'],
   'application' => ['exe', 'app', 'apk', 'ipa', 'msi', 'cab', 'deb'],
   'applib' => ['lib', 'dll', 'o', 'com'],
-  'zip' => ['zip', '7z', 'rar', 'gz', 'tar'],
+  'zip' => ['zip', '7z', 'rar', 'gz', 'tar', 'mcworld', 'tgz', 'bz2'],
   'emulation' => ['nes', 'n64', '64z', 'nsp', 'xci', 'wbfs', 'cia', 'fbi', '3dsx', 'gba', 'pup'],
   'shortcut' => ['url', 'lnk', 'desktop']
 ];

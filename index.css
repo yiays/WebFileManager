@@ -24,6 +24,14 @@ a:link, a:visited {
 a:link:hover {
   color: var(--highlight-color);
 }
+
+h1:first-child, h2:first-child, h3:first-child, h4:first-child, h5:first-child, h6:first-child, p:first-child {
+  margin-top: 0;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
 .btn {
   display: inline-block;
   background: var(--feature);
@@ -48,6 +56,16 @@ a:link:hover {
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+/*
+  Collapsible items
+*/
+.collapse-toggle + .collapse-content {
+  display: none;
+}
+.collapse-toggle:checked + .collapse-content {
+  display: unset;
 }
 
 .fm {
@@ -80,22 +98,22 @@ nav.breadcrumb > a:hover {
   padding: 1em;
   position: relative;
 }
-.fileview > .item {
+.fileview .item {
   border: 1px solid transparent;
   border-radius: 0.25em;
 }
-.fileview > .item:hover {
+.fileview .item:hover {
   background: rgba(255,255,255,0.25);
   border: 1px solid rgba(255,255,255,0.5);
   color: var(--highlight-color);
 }
-.fileview > .item > span {
+.fileview .item > span {
   display: block;
   overflow-wrap: break-word;
   overflow: hidden;
   font-size: 0.9rem;
 }
-.fileview > .item > span.name {
+.fileview .item > span.name {
   font-size: 1rem;
 }
 
@@ -104,7 +122,7 @@ nav.breadcrumb > a:hover {
   flex-direction: row;
   flex-wrap: wrap;
 }
-.fileview.grid > .item {
+.fileview.grid .item {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -112,7 +130,7 @@ nav.breadcrumb > a:hover {
   align-items: center;
   width: calc(var(--size)*2);
 }
-.fileview.grid > .item.drive {
+.fileview.grid .item.drive {
   position: relative;
   width: calc(var(--size)*2.5);
   padding-left: var(--size);
@@ -120,25 +138,25 @@ nav.breadcrumb > a:hover {
   align-items: start;
   min-height: var(--size);
 }
-.fileview.grid > .item.drive > img {
+.fileview.grid .item.drive > img {
   position: absolute;
   left: 0;
 }
-.fileview.grid > .item.drive > span.usage, .fileview.grid > .item.drive > span.usage-bar {
+.fileview.grid .item.drive > span.usage, .fileview.grid .item.drive > span.usage-bar {
   display: block;
 }
 .fileview.grid progress {
   width: calc(var(--size) * 2);
   height: 24px;
 }
-.fileview.grid > .item > img {
+.fileview.grid .item > img {
   width: var(--size);
   height: var(--size);
 }
-.fileview.grid > .item > span {
+.fileview.grid .item > span {
   display: none;
 }
-.fileview.grid > .item > span.name {
+.fileview.grid .item > span.name {
   display: block;
   max-height: var(--size);
   max-width: 100%;
@@ -148,52 +166,68 @@ nav.breadcrumb > a:hover {
   display: flex;
   flex-direction: column;
 }
-.fileview.list > .item {
+.fileview.list .item {
+  width: 100%;
   display: flex;
   flex-direction: row;
   padding: 0.25em;
   margin-bottom: 0.25em;
 }
-.fileview.list > .item > img {
+.fileview.list .item > img {
   width: calc(var(--size)/4);
   height: calc(var(--size)/4);
 }
-.fileview.list > .item > span {
+.fileview.list .item > span {
   text-overflow: ellipsis;
   white-space: nowrap;
   align-self: center;
 }
-.fileview.list > .item > span.name {
+.fileview.list .item > span.name {
   flex-basis: 50%;
 }
-.fileview.list > .item > span.moddate {
+.fileview.list .item > span.moddate {
   flex-basis: 30%;
 }
-.fileview.list > .item > span.size {
+.fileview.list .item > span.size {
   flex-basis: 10%;
 }
-.fileview.list > .item.drive > span.moddate {
+.fileview.list .item.drive > span.moddate {
   display: none;
 }
-.fileview.list > .item.drive > span.usage {
+.fileview.list .item.drive > span.usage {
   flex-basis: 20%;
 }
-.fileview.list > .item.drive > span.usage-bar {
+.fileview.list .item.drive > span.usage-bar {
   flex-basis: 30%;
 }
 .fileview.list progress {
   width: 20vw;
   height: 1em;
 }
+.fileview.list.tree .foldercontent {
+  padding-left: 1em;
+  background: rgba(255, 255, 255, 0.1);
+}
 
+/* TODO: style this.
 .fileview.preview {
-
+  
 }
 .fileview.preview > .file-properties {
   
 }
+*/
 .fileview.preview > .file-properties > .flex-stack > span {
   margin: 1em 0;
+}
+
+.fv-header {
+  /* an alternative header to the breadcrumb navigation */
+  --color: #fff;
+  --highlight-color: #faa;
+  color: var(--color);
+  background: var(--feature);
+  padding: 0.5em;
 }
 
 .fv-footer {

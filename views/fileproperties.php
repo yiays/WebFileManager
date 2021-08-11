@@ -41,7 +41,18 @@ if($previewtype == 'video') {
     <source src=\"$dlurl\" type=\"$mimetype\">
     Unable to play this audio in your browser
   </audio>");
-}elseif(in_array($ext, $editable)){
+}elseif($previewtype == 'zip') {
+  print("
+    <h3>File contents:</h3>
+    <div class=\"fileview list tree\" style=\"--size:4em\">
+  ");
+  $printed = 0;
+  require_once 'zipbrowser.php';
+  if($printed == 0){
+    print("<span class=\"item disabled\">¯\_(ツ)_/¯</span>");
+  }
+  print("</div>");
+}elseif(in_array($ext, $editable)) {
   if(filesize($cwd) <= 2000){
     print("
     <form method=\"POST\">

@@ -10,7 +10,7 @@ if(strpos($cwd, $root.'drives') === 0){
 }
 
 // Authentication
-$username = $_SERVER['PHP_AUTH_USER']?$_SERVER['PHP_AUTH_USER']:'null';
+$username = array_key_exists('PHP_AUTH_USER', $_SERVER)?$_SERVER['PHP_AUTH_USER']:'null';
 // Users can access the homepage and some shares without logging in
 if($_SERVER['REQUEST_URI'] != '/' & strpos($_SERVER['REQUEST_URI'], '/share/') !== 0) {
   $dirpasswd = search_parents($cwd, '.passwd');

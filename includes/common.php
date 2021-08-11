@@ -21,7 +21,8 @@ function get_quota($dir) {
 		$total = intval(file_get_contents($quotafile));
 		$io = popen('/usr/bin/du -sk '.dirname($quotafile), 'r');
 		$used = fgets($io, 4096);
-		$used = intval(substr($used, 0, strpos ($used, "\t")));
+		pclose($io);
+		$used = intval(substr($used, 0, strpos($used, "\t")));
 
 		return ['total'=>$total, 'used'=>$used, 'free'=>$total-$used];
 	}else{

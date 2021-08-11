@@ -3,9 +3,11 @@ require_once __DIR__.'/../router.php';
 require_once __DIR__.'/../includes/common.php';
 require_once __DIR__.'/../api/viewcontrol.php';
 
-$title = basename($cwd);
-$subview = !require_once 'header.php';
-if(!$subview) require 'breadcrumb.php';
+if(!isset($subview)){
+  $title = basename($cwd);
+  require_once 'header.php';
+  require 'breadcrumb.php';
+}
 
 echo "<div class=\"fileview $viewmode\" style=\"--size:$viewsize\">";
 
@@ -25,5 +27,5 @@ if(is_dir($cwd)) {
   require 'viewcontrols.php';
 }
 
-if(!$subview) require 'footer.php';
+if(!isset($subview)) require_once 'footer.php';
 ?>

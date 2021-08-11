@@ -28,13 +28,26 @@ if(!in_array($username, $sharees) & $sharees != ['*']) {
 }
 
 if(strpos($sharedir, '/user/') === 0) $sharedir = "/user/$sharer/".substr($sharedir, 6);
-print(substr($cwd, strlen($root.'share/'.$shareid.'/')).'<br>');
-$cwd = $_SERVER['DOCUMENT_ROOT'].'/raw'.$sharedir.substr($cwd, strlen($root.'share/'.$shareid.'/'));
+$sharedirext = substr($cwd, strlen($root.'share/'.$shareid.'/'));
+$cwd = $_SERVER['DOCUMENT_ROOT'].'/raw'.$sharedir.$sharedirext;
 
 $title = "$shareid by $sharer";
-require 'header.php';
+require_once 'header.php';
 
+print("
+  <div class=\"fv-header\">
+    <p><b>Share <i>$shareid</i> by <i>$sharer</i></b></p>
+    <p>Visible to <i>$sharepayload[2]</i></p>
+  </div>
+");
+
+if($sharedirext) {
+  $breadcrumbskip = 2;
+  require 'breadcrumb.php';
+}
+
+$subview = true;
 require 'fileview.php';
 
-require 'footer.php';
+require_once 'footer.php';
 ?>

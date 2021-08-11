@@ -13,6 +13,11 @@
         $prefix = "<span>&gt;</span>";
       }
       
+      if(isset($breadcrumbskip) & $breadcrumbskip > 0) {
+        $breadcrumbskip--;
+        continue;
+      }
+      
       $part = urldecode($part);
       print("$prefix<a href=\"$partsum/\">$part</a>");
     }

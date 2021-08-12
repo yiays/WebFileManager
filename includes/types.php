@@ -5,9 +5,9 @@ $types = [
   'image' => ['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg', 'ico'],
   'adobe' => ['ai', 'psd', 'swf', 'fla', 'aep', 'abr', 'prproj'],
   'document' => ['doc', 'docx', 'rtf', 'odf', 'pdf', 'pages'],
-  'presentation' => ['ppt', 'pptx', 'key'],
+  'presentation' => ['ppt', 'pptx', 'keynote'],
   'spreadsheet' => ['xls', 'xlsx', 'numbers', 'csv'],
-  'database' => ['sql', 'db', 'cfg', 'conf', 'ini', 'bin', 'json'],
+  'database' => ['sql', 'db', 'cfg', 'conf', 'cnf', 'ini', 'bin', 'json', 'ldb'],
   'plaintext' => ['txt', 'log'],
   'markup' => ['md', 'html', 'xml', 'css'],
   'code' => ['c', 'cpp', 'h', 'hpp', 'ruby', 'py', 'pyp', 'sh', 'bat', 'ps1', 'js', 'ts'],
@@ -19,7 +19,7 @@ $types = [
   'shortcut' => ['url', 'lnk', 'desktop']
 ];
 $editable = [
-  'sql', 'cfg', 'conf', 'ini', 'json'
+  'sql', 'cfg', 'conf', 'cnf', 'ini', 'json'
 ];
 $editable = array_merge($editable, $types['plaintext']);
 $editable = array_merge($editable, $types['markup']);

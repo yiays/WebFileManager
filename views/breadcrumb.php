@@ -13,9 +13,11 @@
         $prefix = "<span>&gt;</span>";
       }
       
-      if(isset($breadcrumbskip) & $breadcrumbskip > 0) {
-        $breadcrumbskip--;
-        continue;
+      if(isset($breadcrumbskip)) {
+        if ($breadcrumbskip > 0) {
+          $breadcrumbskip--;
+          continue;
+        }
       }
       
       $part = urldecode($part);

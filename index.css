@@ -65,7 +65,7 @@ p:last-child {
   display: none;
 }
 .collapse-toggle:checked + .collapse-content {
-  display: unset;
+  display: block;
 }
 
 .fm {
@@ -209,16 +209,18 @@ nav.breadcrumb > a:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* TODO: style this.
-.fileview.preview {
-  
+
+.file-properties {
+  padding: 1em;
 }
-.fileview.preview > .file-properties {
-  
+.file-properties > .flex-stack {
+  flex-grow: 1;
+  justify-content: space-around;
 }
-*/
-.fileview.preview > .file-properties > .flex-stack > span {
-  margin: 1em 0;
+
+.subview {
+  padding: 1em;
+  background: var(--background);
 }
 
 .fv-header {

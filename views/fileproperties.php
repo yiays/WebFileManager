@@ -12,18 +12,18 @@ $size = human_filesize(filesize($cwd));
 $file = basename($cwd);
 $dlurl = str_replace(['%2F','+'], ['/','%20'], urlencode(substr($cwd, strlen($_SERVER['DOCUMENT_ROOT']))));
 
-print("<div class=\"fileview $viewmode\" style=\"--size:$viewsize\">");
-
 print("
 <div class=\"file-properties flex-row\">
   <img src=\"/icongen.php?nodetype=$type&ext=$ext\" alt=\"$ext icon\"/>
   <div class=\"flex-stack\">
-    <span class=\"name\"><i>File name:</i> $file</span>
+    <h2>$file</h2>
     <span class=\"moddate\"><i>Last modified:</i> $modtime</span>
     <span class=\"size\"><i>Size:</i> $size</span>
     <a class=\"btn btn-primary btn-large\" href=\"$dlurl\">Download</a>
   </div>
-</div>");
+</div>
+<div class=\"subview\">
+  <h2>Preview</h2>");
 if($previewtype == 'video') {
   $mimetype = mime_content_type($cwd);
   print("
@@ -43,8 +43,7 @@ if($previewtype == 'video') {
   </audio>");
 }elseif($previewtype == 'zip') {
   print("
-    <h3>File contents:</h3>
-    <div class=\"fileview list tree\" style=\"--size:4em\">
+    <div class=\"fileview list tree\" style=\"--size:6em\">
   ");
   $printed = 0;
   require_once 'zipbrowser.php';
@@ -60,6 +59,9 @@ if($previewtype == 'video') {
       <input type=\"submit\" class=\"btn\" value=\"Save changes\">
     </form>");
   }
+}else{
+  print("<i>Previews are currently unavailable for this file type.</i>");
 }
+print(" </div>");
 $printed = 1;
 ?>

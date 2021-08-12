@@ -26,14 +26,15 @@ foreach($dirs as $dirf){
 		$totalh = human_filesize($total);
 		$extra = "<span class=\"usage\">$freeh free</span>\n".
 						"<span class=\"usage-bar\"><progress value=$percentage max=100 title=\"$totalh total\"></span>";
+		$url = '/'.canonicalurl($dirf);
 	}
 	else{
 		$type = glob($dirf.'/*')?'folder':'folder&mod=empty';
 		if(is_link($dirf)) $type .= '&shortcut';
+		$url = canonicalurl($dirf);
 	}
 	$modtime = date("d/m/Y H:i:s", filemtime($dirf));
 	$dir = basename($dirf);
-	$url = canonicalurl($dirf);
 	if(strpos($dir, '.') !== 0 && !in_array($dir, $ignores)){
 		$printed++;
 		print("

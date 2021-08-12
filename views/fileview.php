@@ -9,19 +9,17 @@ if(!isset($subview)){
   require 'breadcrumb.php';
 }
 
-echo "<div class=\"fileview $viewmode\" style=\"--size:$viewsize\">";
-
 $printed = 0;
-if(is_dir($cwd))
+if(is_dir($cwd)) {
+  echo "<div class=\"fileview $viewmode\" style=\"--size:$viewsize\">";
   require 'views/dirbrowser.php';
-else
+  if($printed == 0){
+    print("<span class=\"item disabled\">¯\_(ツ)_/¯</span>");
+  }
+  echo "</div>";
+} else {
   require 'views/fileproperties.php';
-
-if($printed == 0){
-  print("<span class=\"item disabled\">¯\_(ツ)_/¯</span>");
 }
-
-echo "</div>";
 
 if(is_dir($cwd)) {
   require 'viewcontrols.php';

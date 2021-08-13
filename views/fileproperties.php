@@ -49,6 +49,8 @@ if($previewtype == 'video') {
   require_once 'zipbrowser.php';
   if($printed == 0){
     print("<span class=\"item disabled\">¯\_(ツ)_/¯</span>");
+  }elseif($totalnodes > NODE_LIMIT) {
+    print("<span class=\"item disabled\" title=\"Further items have been hidden for performance reasons.\">...</span>");
   }
   print("</div>");
 }elseif(in_array($ext, $editable)) {

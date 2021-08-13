@@ -8,7 +8,10 @@ $files = array_diff($files, $dirs);
 natsort($dirs);
 natsort($files);
 
+$totalnodes = count($dirs) + count($files);
+
 foreach($dirs as $dirf){
+	if($printed >= NODE_LIMIT) break;
 	$extra = '';
 	if($cwd == $root){
 		if($dirf == $cwd.'user'){
@@ -47,6 +50,7 @@ foreach($dirs as $dirf){
 	}
 }
 foreach($files as $filef){
+	if($printed >= NODE_LIMIT) break;
 	$type = 'file';
 	if(is_link($filef)) $type .= '&shortcut';
 	$ext = pathinfo($filef, PATHINFO_EXTENSION);

@@ -13,7 +13,7 @@ if(!isset($subview)){
 
 $printed = 0;
 $totalnodes = 0;
-if(is_dir($cwd)) {
+if(is_dir($cwd)&!isset($_GET['properties'])) {
   echo "<div class=\"fileview $viewmode\" style=\"--size:$viewsize\">";
   require 'views/dirbrowser.php';
   if($printed == 0){

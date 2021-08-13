@@ -4,7 +4,8 @@ if(basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
   $url = $_GET['cwd'];
   $cwd = $_SERVER['DOCUMENT_ROOT'].$url;
 }else{
-  $url = $_SERVER['REQUEST_URI'];
+  require_once __DIR__.'/../router.php';
+  $url = $rawrequrl;
 }
 
 // Defaults

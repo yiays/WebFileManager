@@ -38,4 +38,24 @@ function canonicalurl($path) {
 	$path = str_replace('%2F', '/', $path);
 	return $path;//'/'.$path;
 }
+
+// Get share data and parse it in advance
+$sharedata = explode("\n", file_get_contents($_SERVER['DOCUMENT_ROOT'].'/.shares'));
+$shares = [];
+foreach($sharedata as $share) {
+	if(substr_count($share, ':') == 2) {
+		$parsedsharedata = explode(':', $share);
+		$shares [$parsedsharedata[1]] = $parsedsharedata[2];
+	}
+}
+function share_status($node) {
+	global $shares;
+	foreach($shares as $rootsharepath => $sharees) {
+		if(strpos(substr($node, strlen($_SERVER['DOCUMENT_ROOT'].'/raw')).'/', $rootsharepath) === 0) {
+			if($sharees == '*') return 'public';
+			else return 'shared';
+		}
+	}
+	return 'private';
+}
 ?>

@@ -1,6 +1,7 @@
 <nav class="breadcrumb">
 <?php
-  $url = $_SERVER['HTTP_HOST'].(strlen($_SERVER['REQUEST_URI'])>1?$_SERVER['REQUEST_URI']:'');
+  require_once __DIR__.'/../router.php';
+  $url = $_SERVER['HTTP_HOST'].(strlen($rawrequrl)>1?$rawrequrl:'');
     
   $partsum = "";
   foreach(explode('/', $url) as $part){

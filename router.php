@@ -1,8 +1,9 @@
 <?php
 require_once 'includes/common.php';
 
-$root = __DIR__."/raw/";
-$cwd = __DIR__."/raw".str_replace(['[',']'], ['[[]','[]]'], urldecode($_SERVER['REQUEST_URI']));
+$root = __DIR__.'/raw/';
+$rawrequrl = explode('?', $_SERVER['REQUEST_URI'])[0];
+$cwd = __DIR__.'/raw'.str_replace(['[',']'], ['[[]','[]]'], urldecode($rawrequrl));
 
 // Hardcoded redirects
 if(strpos($cwd, $root.'drives') === 0){
@@ -12,7 +13,7 @@ if(strpos($cwd, $root.'drives') === 0){
 // Authentication
 $username = array_key_exists('PHP_AUTH_USER', $_SERVER)?$_SERVER['PHP_AUTH_USER']:'null';
 // Users can access the homepage and some shares without logging in
-if($_SERVER['REQUEST_URI'] != '/' & strpos($_SERVER['REQUEST_URI'], '/share/') !== 0) {
+if($rawrequrl != '/' & strpos($rawrequrl, '/share/') !== 0) {
   $dirpasswd = search_parents($cwd, '.passwd');
   if($dirpasswd){
     if(empty($_SERVER['PHP_AUTH_USER'])) {
@@ -55,9 +56,9 @@ if($dirignore){
 }
 
 // The actual routing
-if($_SERVER['REQUEST_URI'] == '/') {
+if($rawrequrl == '/') {
   require 'views/home.php';
-}elseif(strpos($_SERVER['REQUEST_URI'], '/share/') === 0){
+}elseif(strpos($rawrequrl, '/share/') === 0){
   require 'views/share.php'; 
 }else{
   // 404

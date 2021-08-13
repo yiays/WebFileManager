@@ -18,26 +18,26 @@ $zipdrivers = [
 ];
 
 /*
-	TODO: Refactor to remove the dependancy on listing directories.
+	TODO: Find a better way to handle spaces in paths
 */
 
 if(array_key_exists($ext, $zipdrivers)) {
 	$driver = $zipdrivers[$ext];
 	
-	$cmd = str_replace('%0', escapeshellarg($cwd), $driver[EXE]).' 2>&1';
+	$cmd = str_replace('%0', escapeshellarg($cwd), $driver[EXE]);
 	/*$io = popen($cmd, 'r');
 	$data = [];
 	while($data[] = str_replace(["\n","\r"], '', fgets($io, 1024)));
 	pclose($io);*/
-	$data = explode(PHP_EOL, shell_exec("/usr/bin/timeout 1.5s $cmd"));
+	exec("/usr/bin/timeout 1.5s $cmd 2>&1", $data, $exit_code);
 
-	$totalnodes = count($data);
+	$totalnodes = count($data) - $driver[LINE_SKIP_START] - $driver[LINE_SKIP_END];
 
 	$pathtree = [];
 	$lasttree = [];
 	$declareddirs = [];
 	$error = false;
-	for($i=$driver[LINE_SKIP_START]; $i<min(count($data)-$driver[LINE_SKIP_END], NODE_LIMIT); $i++) {
+	for($i=$driver[LINE_SKIP_START]; $i<min(count($data), $localnodelimit); $i++) {
 		$format = $driver[DATA_FORMAT];
 		$line = $data[$i];
 		if(is_int($format[count($format)-1])) {
@@ -50,15 +50,17 @@ if(array_key_exists($ext, $zipdrivers)) {
 		}
 		$fileinfo = array_values(array_diff(explode($driver[DATA_SEPARATOR], $line), ['']));
 		$params = array_flip(array_values($format));
-		if(count($fileinfo) != count($format)) {
-			$error = true;
+		// We continue past the end of the meaningful data just in case it was cut short and there's more paths for us
+		if(count($fileinfo) < count($format)) {
+			// Only throw an error if we're expecting there to be meaningful data here
+			if($i < count($data) - $driver[LINE_SKIP_END]) $error = true;
 			break;
 		}
 
-		$fullpath = str_replace('//', '/', trim($fileinfo[$params['path']]));
+		$fullpath = str_replace('//', '/', trim(implode($driver[DATA_SEPARATOR], array_slice($fileinfo, $params['path']))));
 		// Gets array of folders leading to the current file
 		$pathtree = strpos($fullpath, '/')!==false?explode('/', $fullpath):[$fullpath];
-		$pathdepth = count($pathtree) - 2;
+		$pathdepth = count($pathtree) - 2; // TODO: These can result in negative numbers, so definitely not right.
 		$lastdepth = count($lasttree) - 1; // This doesn't seem right, but it works.
 		// We discard the last element of the array and use it to find out if this path is a file
 		$type = strlen(array_pop($pathtree))?'file':'folder';
@@ -155,6 +157,9 @@ if(array_key_exists($ext, $zipdrivers)) {
 			}
 		}
 		print("</textarea>");
+	}
+	if($exit_code == 124) {
+		$totalnodes = NODE_LIMIT + 1; // Just here to show that we know we didn't reach the end of the archive - the true length is unknown
 	}
 }else{
 	print("ERROR: Unable to preview the contents of this archive - missing driver.");

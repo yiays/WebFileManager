@@ -1,13 +1,14 @@
 <?php
 require_once 'fileview.php';
 
+// Get folders and files
 $dirs = glob($cwd.'*', GLOB_ONLYDIR);
 $files = glob($cwd.'*');
 $files = array_diff($files, $dirs);
 
+// Sort and count them
 natsort($dirs);
 natsort($files);
-
 $totalnodes = count($dirs) + count($files);
 
 foreach($dirs as $dirf){
@@ -38,11 +39,12 @@ foreach($dirs as $dirf){
 	}
 	$modtime = date("d/m/Y H:i:s", filemtime($dirf));
 	$dir = basename($dirf);
+	$sharestatus = share_status($dirf);
 	if(strpos($dir, '.') !== 0 && !in_array($dir, $ignores)){
 		$printed++;
 		print("
 		<a class=\"item ".(strpos($type, 'drive')===0?'drive':'dir')."\" href=\"$url/\" title=\"$dir\">
-			<img src=\"/icongen.php?nodetype=$type\" alt=\"folder icon\"/>
+			<img src=\"/icongen.php?nodetype=$type&sharing=$sharestatus\" alt=\"folder icon\"/>
 			<span class=\"name\">$dir</span>
 			<span class=\"moddate\">$modtime</span>
 			$extra
@@ -58,11 +60,12 @@ foreach($files as $filef){
 	$size = human_filesize(filesize($filef));
 	$file = basename($filef);
 	$url = canonicalurl($filef);
+	$sharestatus = share_status($filef);
 	if(strpos($file, '.') !== 0 && !in_array($file, $ignores)){
 		$printed++;
 		print("
 		<a class=\"item file\" href=\"$url\" title=\"$file\">
-			<img src=\"/icongen.php?nodetype=$type&ext=$ext\" alt=\"$ext icon\"/>
+			<img src=\"/icongen.php?nodetype=$type&ext=$ext&sharing=$sharestatus\" alt=\"$ext icon\"/>
 			<span class=\"name\">$file</span>
 			<span class=\"moddate\">$modtime</span>
 			<span class=\"size\">$size</span>

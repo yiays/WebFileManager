@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/router.php';
 
 $sharedata = explode("\n", file_get_contents($_SERVER['DOCUMENT_ROOT'].'/.shares'));
-$shareid = explode('/', $_SERVER['REQUEST_URI'])[2];
+$shareid = explode('/', $rawrequrl)[2];
 $matchedshare = null;
 foreach($sharedata as $share) {
   if(strpos($share, $shareid.'=') === 0) {
@@ -22,12 +22,11 @@ $sharer = $sharepayload[0];
 $sharedir = $sharepayload[1];
 $sharees = explode(',',$sharepayload[2]);
 
-if(!in_array($username, $sharees) & $sharees != ['*']) {
+if(!in_array($username, $sharees) & $sharees != ['*'] & $username != $sharer) {
   http_response_code(403);
   die("You must be logged in as a user that this item was shared with.");
 }
 
-if(strpos($sharedir, '/user/') === 0) $sharedir = "/user/$sharer/".substr($sharedir, 6);
 $sharedirext = substr($cwd, strlen($root.'share/'.$shareid.'/'));
 $cwd = $_SERVER['DOCUMENT_ROOT'].'/raw'.$sharedir.$sharedirext;
 

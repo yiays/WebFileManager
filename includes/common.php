@@ -7,6 +7,22 @@ function search_parents($directory, $filename) {
 	}
 	return false;
 }
+function scan_children($directory) {
+	$files = [];
+	$subnodes = glob($directory.'*');
+	foreach($subnodes as $node) {
+		if(is_dir($node)) $node .= '/';
+		if(count($files) > NODE_LIMIT) break;
+		$files []= $node;
+		if(is_dir($node)) $files = array_merge($files, scan_children($node));
+	}
+	if(count($files) > NODE_LIMIT) {
+		print("Too many items to compress in one go!<br>");
+		print_r($files);
+		die();
+	}
+	return $files;
+}
 
 function human_filesize($bytes, $dec = 2) {
 	$size   = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
@@ -31,12 +47,10 @@ function get_quota($dir) {
 }
 
 function canonicalurl($path) {
-	global $username;
-	$path = basename($path);//str_replace($_SERVER['DOCUMENT_ROOT'].'/raw/user/'.$username, $_SERVER['DOCUMENT_ROOT'].'/raw/user', $path);
-	//$path = substr($path, strlen($_SERVER['DOCUMENT_ROOT'].'/raw/'));
+	$path = basename($path);
 	$path = urlencode($path);
 	$path = str_replace('%2F', '/', $path);
-	return $path;//'/'.$path;
+	return $path;
 }
 
 // Get share data and parse it in advance
@@ -56,6 +70,6 @@ function share_status($node) {
 			else return 'shared';
 		}
 	}
-	return 'private';
+	return '';//'locked';
 }
 ?>

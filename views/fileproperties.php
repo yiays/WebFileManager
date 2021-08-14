@@ -25,7 +25,13 @@ if($type == 'folder') {
       <h2>$name</h2>
       <span class=\"moddate\"><i>Last modified:</i> $modtime</span>
       <span class=\"contents\"><i>Contents:</i> $contents</span>
-      <a class=\"btn btn-primary btn-large\" href=\"$rawrequrl\">Browse</a>
+      <div class=\"flex-row\">
+        <a class=\"btn btn-primary btn-large\" href=\"$rawrequrl\">Browse</a>
+        <form method=\"POST\">
+          <input type=\"hidden\" name=\"action\" value=\"zipdl\">
+          <input type=\"submit\" value=\"Download\" class=\"btn btn-primary btn-large\">
+        </form>
+      </div>
     </div>
   </div>");
 }else{
@@ -36,7 +42,9 @@ if($type == 'folder') {
       <h2>$name</h2>
       <span class=\"moddate\"><i>Last modified:</i> $modtime</span>
       <span class=\"size\"><i>Size:</i> $size</span>
-      <a class=\"btn btn-primary btn-large\" href=\"$dlurl\">Download</a>
+      <div class=\"flex-row\">
+        <a class=\"btn btn-primary btn-large\" href=\"$dlurl\">Download</a>
+      </div>
     </div>
   </div>
   <div class=\"subview\">

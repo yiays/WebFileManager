@@ -30,6 +30,11 @@ if(!in_array($username, $sharees) & $sharees != ['*'] & $username != $sharer) {
 $sharedirext = substr($cwd, strlen($root.'share/'.$shareid.'/'));
 $cwd = $_SERVER['DOCUMENT_ROOT'].'/raw'.$sharedir.$sharedirext;
 
+if(!file_exists($cwd)) die("This share no longer exists.");
+
+// Check for any file actions
+require_once 'api/fileactiondelegator.php';
+
 $title = "$shareid by $sharer";
 require_once 'header.php';
 

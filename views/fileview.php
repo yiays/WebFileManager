@@ -1,11 +1,15 @@
 <?php
 require_once __DIR__.'/../router.php';
-require_once __DIR__.'/../includes/common.php';
+
+// Handle any view control commands
 require_once __DIR__.'/../api/viewcontrol.php';
 
 define('NODE_LIMIT', 256);
 
 if(!isset($subview)){
+  // Check for any file actions
+  require_once 'api/fileactiondelegator.php';
+  
   $title = basename($cwd);
   require_once 'header.php';
   require 'breadcrumb.php';

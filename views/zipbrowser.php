@@ -60,8 +60,8 @@ if(array_key_exists($ext, $zipdrivers)) {
 		$fullpath = str_replace('//', '/', trim(implode($driver[DATA_SEPARATOR], array_slice($fileinfo, $params['path']))));
 		// Gets array of folders leading to the current file
 		$pathtree = strpos($fullpath, '/')!==false?explode('/', $fullpath):[$fullpath];
-		$pathdepth = count($pathtree) - 2; // TODO: These can result in negative numbers, so definitely not right.
-		$lastdepth = count($lasttree) - 1; // This doesn't seem right, but it works.
+		$pathdepth = max(count($pathtree) - 2, 0); // TODO: These can result in negative numbers, so definitely not right.
+		$lastdepth = max(count($lasttree) - 1, 0); // This doesn't seem right, but it works.
 		// We discard the last element of the array and use it to find out if this path is a file
 		$type = strlen(array_pop($pathtree))?'file':'folder';
 		if(array_key_exists('datetime', $params))

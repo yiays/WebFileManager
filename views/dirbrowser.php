@@ -43,12 +43,12 @@ foreach($dirs as $dirf){
 	if(strpos($dir, '.') !== 0 && !in_array($dir, $ignores)){
 		$printed++;
 		print("
-		<a class=\"item ".(strpos($type, 'drive')===0?'drive':'dir')."\" href=\"$url/\" title=\"$dir\">
-			<img src=\"/icongen.php?nodetype=$type&sharing=$sharestatus\" alt=\"folder icon\"/>
-			<span class=\"name\">$dir</span>
-			<span class=\"moddate\">$modtime</span>
-			$extra
-		</a>");
+			<a class=\"item ".(strpos($type, 'drive')===0?'drive':'dir')."\" href=\"$url/\" title=\"$dir\">
+				<img src=\"/icongen.php?nodetype=$type&sharing=$sharestatus\" alt=\"folder icon\"/>
+				<span class=\"name\">$dir</span>
+				<span class=\"moddate\">$modtime</span>
+				$extra
+			</a>");
 	}
 }
 foreach($files as $filef){

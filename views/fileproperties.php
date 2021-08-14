@@ -13,6 +13,7 @@ if(is_dir($cwd)){
   $dlurl = str_replace(['%2F','+'], ['/','%20'], urlencode(substr($cwd, strlen($_SERVER['DOCUMENT_ROOT']))));
 }
 if(is_link($cwd)) $type .= '&shortcut';
+$path = substr(dirname($cwd), strlen($root));
 $name = basename($cwd);
 $modtime = date("d/m/Y H:i:s", filemtime($cwd));
 $sharestatus = share_status($cwd);
@@ -22,7 +23,10 @@ if($type == 'folder') {
   <div class=\"file-properties flex-row\">
     <img src=\"/icongen.php?nodetype=$type&sharing=$sharestatus\" alt=\"folder icon\"/>
     <div class=\"flex-stack\">
-      <h2>$name</h2>
+      <div>
+        <h2>$name</h2>
+        <span class=\"path\">Located in $path
+      </div>
       <span class=\"moddate\"><i>Last modified:</i> $modtime</span>
       <span class=\"contents\"><i>Contents:</i> $contents</span>
       <div class=\"flex-row\">
@@ -39,7 +43,10 @@ if($type == 'folder') {
   <div class=\"file-properties flex-row\">
     <img src=\"/icongen.php?nodetype=$type&ext=$ext&sharing=$sharestatus\" alt=\"$ext icon\"/>
     <div class=\"flex-stack\">
-      <h2>$name</h2>
+      <div>
+        <h2>$name</h2>
+        <span class=\"path\">Located in $path
+      </div>
       <span class=\"moddate\"><i>Last modified:</i> $modtime</span>
       <span class=\"size\"><i>Size:</i> $size</span>
       <div class=\"flex-row\">

@@ -2,7 +2,7 @@
 require_once $_SERVER['DOCUMENT_ROOT'].'/router.php';
 
 $sharedata = explode("\n", file_get_contents($_SERVER['DOCUMENT_ROOT'].'/.shares'));
-$shareid = explode('/', $rawrequrl)[2];
+$shareid = urldecode(explode('/', $rawrequrl)[2]);
 $matchedshare = null;
 foreach($sharedata as $share) {
   if(strpos($share, $shareid.'=') === 0) {
@@ -35,20 +35,18 @@ if(!file_exists($cwd)) die("This share no longer exists.");
 // Check for any file actions
 require_once 'api/fileactiondelegator.php';
 
+$shareid = ucfirst($shareid);
 $title = "$shareid by $sharer";
 require_once 'header.php';
 
+require 'breadcrumb.php';
+
 print("
   <div class=\"fv-header\">
-    <p><b>Share <i>$shareid</i> by <i>$sharer</i></b></p>
-    <p>Visible to <i>$sharepayload[2]</i></p>
+    <h2>$shareid</h2>
+    <p><b>shared by <i>$sharer</i></b> - Visible to <i>$sharepayload[2]</i></p>
   </div>
 ");
-
-if($sharedirext) {
-  $breadcrumbskip = 2;
-  require 'breadcrumb.php';
-}
 
 $subview = true;
 require 'fileview.php';

@@ -8,6 +8,12 @@ $cwd = __DIR__.'/raw'.str_replace(['[',']'], ['[[]','[]]'], urldecode($rawrequrl
 // Hardcoded redirects
 if(strpos($cwd, $root.'drives') === 0){
   $cwd = $root;
+  $title = 'Drives';
+  if(substr($rawrequrl, -1) != '/') {
+    http_response_code(301);
+    header("Location: $rawrequrl/");
+    die();
+  }
 }
 
 // Authentication
@@ -65,6 +71,12 @@ if($rawrequrl == '/') {
   if(!file_exists($cwd)){
     http_response_code(404);
     die();
+  }else{
+    if(is_dir($cwd) xor substr($rawrequrl, -1)=='/') {
+      http_response_code(301);
+      header("Location: ".(substr($rawrequrl, -1)=='/'?substr($rawrequrl, 0 ,-1):$rawrequrl.'/'));
+      die();
+    }
   }
   require 'views/fileview.php';
 }

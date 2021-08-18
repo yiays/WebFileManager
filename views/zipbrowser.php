@@ -25,10 +25,6 @@ if(array_key_exists($ext, $zipdrivers)) {
 	$driver = $zipdrivers[$ext];
 	
 	$cmd = str_replace('%0', escapeshellarg($cwd), $driver[EXE]);
-	/*$io = popen($cmd, 'r');
-	$data = [];
-	while($data[] = str_replace(["\n","\r"], '', fgets($io, 1024)));
-	pclose($io);*/
 	exec("/usr/bin/timeout 1.5s $cmd 2>&1", $data, $exit_code);
 
 	$totalnodes = count($data) - $driver[LINE_SKIP_START] - $driver[LINE_SKIP_END];

@@ -10,7 +10,7 @@ if(!isset($subview)){
   // Check for any file actions
   require_once 'api/fileactiondelegator.php';
   
-  $title = basename($cwd);
+  if(!isset($title)) $title = basename($cwd);
   require_once 'header.php';
   require 'breadcrumb.php';
 }

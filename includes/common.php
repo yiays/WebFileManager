@@ -1,4 +1,6 @@
 <?php
+ini_set('default_socket_timeout', 1);
+
 function search_parents($directory, $filename) {
 	$dirstack = explode('/', $directory);
 	for($i=count($dirstack)-1; $i>1; $i--){

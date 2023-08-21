@@ -3,23 +3,47 @@ require_once 'includes/common.php';
 
 $root = __DIR__.'/raw/';
 $rawrequrl = explode('?', $_SERVER['REQUEST_URI'])[0];
-$cwd = __DIR__.'/raw'.str_replace(['[',']'], ['[[]','[]]'], urldecode($rawrequrl));
+$cwd;
+$auth = true; // Tracks if authentication is required
 
-// Hardcoded redirects
-if(strpos($cwd, $root.'drives') === 0){
-  $cwd = $root;
+$username = array_key_exists('PHP_AUTH_USER', $_SERVER)?$_SERVER['PHP_AUTH_USER']:'null';
+
+// Directory handlers
+// /drives
+if(strpos($rawrequrl, '/drives') === 0) {
   $title = 'Drives';
-  if(substr($rawrequrl, -1) != '/') {
-    http_response_code(301);
-    header("Location: $rawrequrl/");
+  $cwd = $root;
+}
+// /user
+elseif(strpos($rawrequrl, '/user') === 0) {
+  if(!str_starts_with($rawrequrl, "/user/$username/")) {
+    http_response_code(302);
+    if($username == 'null') {
+      header("Location: /");
+      die();
+    }
+    header("Location: /user/$username/");
     die();
   }
+  $cwd = __DIR__.'/raw'.str_replace(['[',']'], ['[[]','[]]'], urldecode($rawrequrl));
+}
+// /share
+elseif(strpos($rawrequrl, '/share') === 0) {
+  $auth = false;
+}
+// /download
+elseif(strpos($rawrequrl, '/download') === 0) {
+  $cwd = __DIR__.'/raw'.str_replace(['[',']'], ['[[]','[]]'], urldecode(substr($rawrequrl, 9)));
+}
+// /*
+else {
+  $cwd = __DIR__.'/raw'.str_replace(['[',']'], ['[[]','[]]'], urldecode($rawrequrl));
+  if($rawrequrl == '/') $auth = false;
 }
 
 // Authentication
-$username = array_key_exists('PHP_AUTH_USER', $_SERVER)?$_SERVER['PHP_AUTH_USER']:'null';
 // Users can access the homepage and some shares without logging in
-if($rawrequrl != '/' & strpos($rawrequrl, '/share/') !== 0) {
+if($auth) {
   $dirpasswd = search_parents($cwd, '.passwd');
   if($dirpasswd){
     if(empty($_SERVER['PHP_AUTH_USER'])) {
@@ -39,15 +63,11 @@ if($rawrequrl != '/' & strpos($rawrequrl, '/share/') !== 0) {
   }
 }
 
-// Smart username URLs
-if(strpos($cwd, __DIR__.'/raw/user') === 0){
-  if($username == 'null') {
-    die("You must login to access your personal folder.");
-  }
-	$cwd = str_replace(__DIR__.'/raw/user', __DIR__.'/raw/user/'.$username, $cwd);
-	if(!file_exists(__DIR__.'/raw/user/'.$username.'/')){
-		mkdir(__DIR__.'/raw/user/'.$username);
-	}
+// Trailing / redirect
+if(isset($cwd) && (!file_exists($cwd) || is_dir($cwd)) && !str_ends_with($cwd, '/')) {
+  http_response_code(301);
+  header("Location: ".$rawrequrl.'/');
+  die();
 }
 
 // Hide specified files
@@ -68,16 +88,11 @@ if($rawrequrl == '/') {
   require 'views/share.php'; 
 }else{
   // 404
-  if(!file_exists($cwd)){
+  if(!file_exists($cwd) || !isset($cwd)){
     http_response_code(404);
     die();
-  }else{
-    if(is_dir($cwd) xor substr($rawrequrl, -1)=='/') {
-      http_response_code(301);
-      header("Location: ".(substr($rawrequrl, -1)=='/'?substr($rawrequrl, 0 ,-1):$rawrequrl.'/'));
-      die();
-    }
   }
+
   require 'views/fileview.php';
 }
 ?>
